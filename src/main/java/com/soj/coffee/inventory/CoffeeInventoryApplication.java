@@ -10,7 +10,7 @@ public class CoffeeInventoryApplication {
 static final Logger logger= LogManager.getLogger(CoffeeInventoryApplication.class.getName());
 	public static void main(String[] args) {
 		SpringApplication.run(CoffeeInventoryApplication.class, args);
-		logger.info("hello");
+
 	}
 
 }
