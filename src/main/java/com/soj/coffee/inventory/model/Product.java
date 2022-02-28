@@ -1,12 +1,17 @@
 package com.soj.coffee.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "product")
 
-public class Product {
+public class Product implements Serializable {
+   public static final String OBJECT_TYPE="Product";
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
