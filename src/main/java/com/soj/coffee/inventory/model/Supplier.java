@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "supplier")
 public class Supplier {
+    public static final String OBJECT_TYPE="Supplier";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
