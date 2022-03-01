@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "transaction")
 public class Transaction {
+    public static final String OBJECT_TYPE="Transaction";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
