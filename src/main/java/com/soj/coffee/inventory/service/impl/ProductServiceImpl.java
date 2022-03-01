@@ -32,9 +32,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Resource<Optional<Product>> getProductById(long id) {
+    public Resource<Product> getProductById(long id) {
        Product product= productRepository.findById(id).get();
-       return new Resource<>(product.getId(),OBJECT_TYPE,Optional.of(product));
+       return new Resource<>(product.getId(),OBJECT_TYPE,product);
 
     }
 

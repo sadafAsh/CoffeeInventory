@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/product")
@@ -24,7 +23,7 @@ public class ProductController {
 
     @GetMapping
     @RequestMapping("{id}")
-    public Resource<Optional<Product>> getProductById(@PathVariable Long id){
+    public Resource<Product> getProductById(@PathVariable Long id){
         return productService.getProductById(id);
 
     }
