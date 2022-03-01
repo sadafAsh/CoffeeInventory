@@ -33,13 +33,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Resource<Optional<Product>> getProductById(long id) {
-       Product product= productRepository.getById(id);
+       Product product= productRepository.findById(id).get();
        return new Resource<>(product.getId(),OBJECT_TYPE,Optional.of(product));
 
     }
 
     @Override
-    public Resource<InventoryResponse> addProduct(Product product) {
+    public Resource addProduct(Product product) {
         Product product1=productRepository.saveAndFlush(product);
         InventoryResponse response=new InventoryResponse(product1.getId(),"create successfully");
        return new Resource<>(product.getId(),OBJECT_TYPE,response);
