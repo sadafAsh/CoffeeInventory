@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Shop.OBJECT_TYPE;
 
@@ -31,9 +30,9 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Resource<Optional<Shop>> getShop(long id) {
+    public Resource<Shop> getShop(long id) {
         Shop shop= shopRepository.findById(id).get();
-        return new Resource<>(shop.getId(),OBJECT_TYPE, Optional.of(shop));
+        return new Resource<>(shop.getId(),OBJECT_TYPE, shop);
 
     }
 

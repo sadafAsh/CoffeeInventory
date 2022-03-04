@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("api/v1")
@@ -23,7 +23,7 @@ public class ShopController {
     }
 
     @GetMapping("/shop/{id}")
-    public Resource<Optional<Shop>> getShopById(@PathVariable long id) {
+    public Resource<Shop> getShopById(@PathVariable long id) {
         return shopService.getShop(id);
     }
 
