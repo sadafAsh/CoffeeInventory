@@ -55,8 +55,8 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Resource<InventoryResponse> updateShop(long id, Shop shop) {
-        Shop existingShop=shopRepository.getById(id);
-        BeanUtils.copyProperties(shop,existingShop,"shop_id");
+        Shop existingShop=shopRepository.findById(id).get();
+        BeanUtils.copyProperties(existingShop,shop,"shop_id");
         Shop shop1= shopRepository.saveAndFlush(existingShop);
     InventoryResponse response=new InventoryResponse(shop1.getId(),"update successfully");
     return new Resource<>(id,OBJECT_TYPE,response);

@@ -55,7 +55,7 @@ return new Resource<>(id,OBJECT_TYPE,response);
 
     @Override
     public Resource<InventoryResponse> updateProduct(Long id, Product product) {
-Product existingProduct=productRepository.getById(id);
+Product existingProduct=productRepository.findById(id).get();
 BeanUtils.copyProperties(product,existingProduct,"product_id");
 Product product1=productRepository.saveAndFlush(existingProduct);
 InventoryResponse response=new InventoryResponse(product1.getId(),"update successfully");
