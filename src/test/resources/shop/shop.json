@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "type": "Shop",
+
+  "attribute": {
+    "id": 1,
+    "name": "morrison"
+  }
+}
