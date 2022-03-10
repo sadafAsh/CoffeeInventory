@@ -1,0 +1,11 @@
+{
+
+  "type": "Inventory",
+  "attribute": {
+    "quantity":3,
+    "product":{
+      "name": "ground beans",
+      "price": 300,
+      "ingredient": "ready to serve"
+    }
+  }}

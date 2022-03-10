@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "type": "Supplier",
+  "attribute": {
+    "id": 1,
+    "name": "Britain"
+  }
+}
