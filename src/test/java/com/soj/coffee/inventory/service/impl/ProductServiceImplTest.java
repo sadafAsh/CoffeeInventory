@@ -8,6 +8,7 @@ import com.soj.coffee.inventory.service.ProductService;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -68,7 +69,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void testToDeleteProdutById() {
+    void testToDeleteProductById() {
         Product product=new Product();
         product.setId(1l);
         doNothing().when(repository).deleteById(1l);
@@ -85,6 +86,34 @@ class ProductServiceImplTest {
         Resource resource1=service.updateProduct(1l,product);
         verify(repository,times(1)).saveAndFlush(product);
 
+    }
+    @Test
+    void testToGetExceptionProductById(){
+
+        Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Product product=new Product();
+            product.setId(1l);
+            when(repository.findById(2l)).thenReturn(java.util.Optional.of(product));
+            Resource resource1=service.getProductById(1l);
+        }
+        });
+    }
+
+    @Test
+    void testForUpdatingProductByGettingException(){
+        Throwable exception=assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Product product = new Product();
+                product.setId(1l);
+                when(repository.findById(2l)).thenReturn(java.util.Optional.of(product));
+                when(repository.saveAndFlush(any())).thenReturn(product);
+                Resource resource1 = service.updateProduct(1l, product);
+            }
+        });
+Assertions.assertEquals("1 is not present",exception.getMessage());
     }
 
 }

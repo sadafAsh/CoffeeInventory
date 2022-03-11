@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Shop.OBJECT_TYPE;
 
@@ -31,9 +32,13 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Resource<Shop> getShop(long id) {
-        Shop shop= shopRepository.findById(id).get();
-        return new Resource<>(shop.getId(),OBJECT_TYPE, shop);
-
+        Optional<Shop> shop= shopRepository.findById(id);
+        if (shop.isPresent()) {
+            return new Resource<>(shop.get().getId(), OBJECT_TYPE, shop.get());
+        }
+        else {
+            throw new IllegalArgumentException(id+" is not found");
+        }
     }
 
     @Override
@@ -49,16 +54,20 @@ public class ShopServiceImpl implements ShopService {
         shopRepository.deleteById(id);
         InventoryResponse response=new InventoryResponse(id,"delete successfully");
         return new Resource<>(id,OBJECT_TYPE,response);
-
-
     }
 
     @Override
     public Resource<InventoryResponse> updateShop(long id, Shop shop) {
-        Shop existingShop=shopRepository.findById(id).get();
+       Optional<Shop> existingShop=shopRepository.findById(id);
         BeanUtils.copyProperties(existingShop,shop,"shop_id");
-        Shop shop1= shopRepository.saveAndFlush(existingShop);
-    InventoryResponse response=new InventoryResponse(shop1.getId(),"update successfully");
-    return new Resource<>(id,OBJECT_TYPE,response);
+        if (existingShop.isPresent()) {
+            Shop shop1 = shopRepository.saveAndFlush(shop);
+            InventoryResponse response = new InventoryResponse(shop1.getId(), "update successfully");
+            return new Resource<>(id, OBJECT_TYPE, response);
+        } else {
+            throw  new IllegalArgumentException(id+" is not found");
+        }
+
     }
+
 }

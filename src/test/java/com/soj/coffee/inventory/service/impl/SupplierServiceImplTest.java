@@ -7,6 +7,7 @@ import com.soj.coffee.inventory.service.SupplierService;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Supplier.OBJECT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,11 +51,24 @@ class SupplierServiceImplTest {
 
     @Test
     void testToGetSupplierById() {
-        Supplier supplier=new Supplier();
-        supplier.setId(1l);
-        when(repository.findById(1l)).thenReturn(java.util.Optional.of(supplier));
-        Resource resource=service.getSupplier(1l);
+        Supplier supplier= new Supplier();
+supplier.setId(1l);
+        when(repository.findById(1l)).thenReturn(Optional.of(supplier));
+        Resource<Supplier> resource=service.getSupplier(1l);
         Assertions.assertEquals(1l,resource.getId());
+    }
+    @Test
+    void testToGetExceptionShopById(){
+Throwable exception=assertThrows(IllegalArgumentException.class, new Executable() {
+    @Override
+    public void execute() throws Throwable {
+        Supplier supplier = new Supplier();
+        supplier.setId(1l);
+        when(repository.findById(2l)).thenReturn(Optional.of(supplier));
+        Resource<Supplier> resource = service.getSupplier(1l);
+    }
+    });
+Assertions.assertEquals("1 is not present",exception.getMessage());
     }
 
     @Test
@@ -83,5 +98,21 @@ class SupplierServiceImplTest {
    Resource resource1=service.updateSupplier(1l,supplier);
    verify(repository,times(1)).saveAndFlush(supplier);
 
+    }
+
+    @Test
+    void testForUpdatingSupplierByGettingException(){
+        Throwable exception=assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Supplier supplier = new Supplier();
+                supplier.setId(1l);
+                when(repository.findById(2l)).thenReturn(Optional.of(supplier));
+                when(repository.saveAndFlush(any())).thenReturn(supplier);
+                Resource resource1 = service.updateSupplier(1l, supplier);
+            }
+        });
+
+        Assertions.assertEquals("1 is not present",exception.getMessage());
     }
 }

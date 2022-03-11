@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("api/v1/product")
 public class ProductController {
@@ -21,8 +22,7 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @GetMapping
-    @RequestMapping("{id}")
+    @GetMapping("{id}")
     public Resource<Product> getProductById(@PathVariable Long id){
         return productService.getProductById(id);
 

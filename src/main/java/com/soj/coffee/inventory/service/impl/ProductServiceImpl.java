@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Product.OBJECT_TYPE;
 
@@ -32,9 +33,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Resource<Product> getProductById(long id) {
-       Product product= productRepository.findById(id).get();
-       return new Resource<>(product.getId(),OBJECT_TYPE,product);
-
+       Optional<Product> product= productRepository.findById(id);
+       if (product.isPresent()) {
+           return new Resource<>(product.get().getId(), OBJECT_TYPE, product.get());
+       }else {
+           throw new IllegalArgumentException(id +" is not present");
+       }
     }
 
     @Override
@@ -55,11 +59,14 @@ return new Resource<>(id,OBJECT_TYPE,response);
 
     @Override
     public Resource<InventoryResponse> updateProduct(Long id, Product product) {
-Product existingProduct=productRepository.findById(id).get();
+Optional<Product> existingProduct=productRepository.findById(id);
 BeanUtils.copyProperties(product,existingProduct,"product_id");
-Product product1=productRepository.saveAndFlush(existingProduct);
+if (existingProduct.isPresent()){
+Product product1=productRepository.saveAndFlush(product);
 InventoryResponse response=new InventoryResponse(product1.getId(),"update successfully");
 return new Resource<>(product1.getId(),OBJECT_TYPE,response);
-
+}else {
+    throw new IllegalArgumentException(id +" is not present");
+}
     }
 }

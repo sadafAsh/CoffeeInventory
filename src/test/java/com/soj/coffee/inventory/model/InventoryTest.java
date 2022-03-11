@@ -38,7 +38,4 @@ class InventoryTest {
         Assertions.assertEquals(product,inventory.getProduct());
     }
 
-    @Test
-    void setProduct() {
-    }
 }

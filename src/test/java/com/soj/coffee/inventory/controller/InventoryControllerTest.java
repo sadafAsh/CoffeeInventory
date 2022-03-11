@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Inventory.OBJECT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,7 +51,7 @@ class InventoryControllerTest {
 
     @Test
     void getInventoryById() {
-        Inventory inventory=new Inventory();
+        Inventory inventory= new Inventory();
         Resource<Inventory> resource=new Resource<>(1l,OBJECT_TYPE,inventory);
         when(service.getInventory(1l)).thenReturn(resource);
         Resource resource1=controller.getInventoryById(1l);

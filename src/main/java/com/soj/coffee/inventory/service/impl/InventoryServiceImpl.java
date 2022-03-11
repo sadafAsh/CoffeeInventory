@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 import static com.soj.coffee.inventory.model.Inventory.OBJECT_TYPE;
@@ -37,8 +38,12 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Resource<Inventory> getInventory(long id) {
-        Inventory inventory=inventoryRepository.findById(id).get();
-        return new Resource<>(inventory.getId(),OBJECT_TYPE,inventory);
+       Optional< Inventory> inventory=inventoryRepository.findById(id);
+       if (inventory.isPresent()) {
+           return new Resource<>(inventory.get().getId(), OBJECT_TYPE, inventory.get());
+       }else {
+           throw new IllegalArgumentException(id +" is not present");
+       }
     }
 
     @Override
@@ -62,16 +67,11 @@ public class InventoryServiceImpl implements InventoryService {
 
         if (inventory!=null){
             inventory.setQuantity(inventory.getQuantity()+qty);
-
-
-
-
         }
         else {
 
            inventory=new Inventory();
             inventory.setQuantity(qty);
-           // Product product=productService.getProductById(inventory.getProduct().getId()).getAttribute();
          Product product=new Product();
          product.setName(inventory1.getProduct().getName());
          product.setIngredient(inventory1.getProduct().getIngredient());

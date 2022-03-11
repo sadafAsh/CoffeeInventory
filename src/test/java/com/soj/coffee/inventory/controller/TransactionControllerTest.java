@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Transaction.OBJECT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,8 +54,7 @@ class TransactionControllerTest {
 
     @Test
     void testToGetTransactionByIdFromDb() {
-        Transaction transaction=new Transaction();
-        transaction.setId(1l);
+        Transaction transaction= new Transaction();
         Resource<Transaction> resource = new Resource<>(1l, OBJECT_TYPE, transaction);
         resource.setAttribute(transaction);
         when(service.getTransaction(1l)).thenReturn(resource);

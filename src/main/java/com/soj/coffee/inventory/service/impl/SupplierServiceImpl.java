@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Supplier.OBJECT_TYPE;
 
@@ -24,20 +24,24 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public List<Resource<Supplier>> getAll() {
         List<Resource<Supplier>> resources=new ArrayList<>();
-         supplierRepository.findAll().stream().map(x->{
+         supplierRepository.findAll().forEach(x->{
              Resource<Supplier> resource=new Resource<>(x.getId(),OBJECT_TYPE,x);
         resources.add(resource);
-        return x;
-         })
-                 .collect(Collectors.toList());
+
+         });
+
          return resources;
     }
 
     @Override
     public Resource<Supplier> getSupplier(long id) {
-        Supplier supplier= supplierRepository.findById(id).get();
-    return new Resource<>(supplier.getId(),OBJECT_TYPE,supplier);
-
+         Optional<Supplier> supplier=supplierRepository.findById(id);
+         if (supplier.isPresent()) {
+             return new Resource<>(supplier.get().getId(), OBJECT_TYPE, supplier.get());
+         }
+         else{
+             throw new IllegalArgumentException(id+" is not present");
+         }
     }
 
     @Override
@@ -56,10 +60,14 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Resource<InventoryResponse> updateSupplier(long id, Supplier supplier) {
-        Supplier existingSupplier=supplierRepository.findById(id).get();
-        BeanUtils.copyProperties(supplier,existingSupplier,"supplier_id");
-        Supplier supplier1=supplierRepository.saveAndFlush(existingSupplier);
-        InventoryResponse response=new InventoryResponse(supplier1.getId(),"update successfully");
-        return new Resource<>(supplier1.getId(),OBJECT_TYPE,response);
+        Optional<Supplier> existingSupplier = supplierRepository.findById(id);
+        BeanUtils.copyProperties(supplier, existingSupplier, "supplier_id");
+        if (existingSupplier.isPresent()) {
+            Supplier supplier1 = supplierRepository.saveAndFlush(supplier);
+            InventoryResponse response = new InventoryResponse(supplier1.getId(), "update successfully");
+            return new Resource<>(supplier1.getId(), OBJECT_TYPE, response);
+        } else {
+           throw  new IllegalArgumentException(id + " is not present");
+        }
     }
 }

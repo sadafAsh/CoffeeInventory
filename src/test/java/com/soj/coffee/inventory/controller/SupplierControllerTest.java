@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Supplier.OBJECT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,14 +52,11 @@ class SupplierControllerTest {
 
     @Test
     void testToGetSupplierById() {
-        Supplier supplier=new Supplier();
-        Resource<Supplier> resource=new Resource<>(1l,"Supplier",supplier);
-        resource.setAttribute(supplier);
-        supplier.setName("Canada");
+        Supplier supplier= new Supplier();
+        Resource<Supplier> resource=new Resource<>(1l,OBJECT_TYPE,supplier);
         when(service.getSupplier(1l)).thenReturn(resource);
         Resource resource1=controller.getSupplierById(1l);
         Assertions.assertEquals(1l,resource1.getId());
-        Assertions.assertEquals(supplier,resource1.getAttribute());
     }
 
     @Test

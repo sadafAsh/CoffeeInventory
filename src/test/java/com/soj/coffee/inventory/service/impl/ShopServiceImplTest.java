@@ -1,6 +1,5 @@
 package com.soj.coffee.inventory.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.soj.coffee.inventory.model.Shop;
 import com.soj.coffee.inventory.repository.ShopRepository;
 import com.soj.coffee.inventory.service.ShopService;
@@ -8,6 +7,7 @@ import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,9 +17,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Shop.OBJECT_TYPE;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -58,6 +58,18 @@ class ShopServiceImplTest {
         Resource<Shop> shop1=service.getShop(1l);
         Assertions.assertEquals(1l,shop1.getId());
     }
+    @Test
+    void testToGetExceptionShopById(){
+        Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Shop shop=new Shop();
+                shop.setId(1l);
+                when(repository.findById(2l)).thenReturn(Optional.of(shop));
+                Resource<Shop> resource=service.getShop(1l);
+            }
+        });
+    }
 
     @Test
     void testToAddShop() {
@@ -77,7 +89,6 @@ class ShopServiceImplTest {
        doNothing(). when(repository).deleteById(1l);
        Resource resource=service.deleteShop(1l);
        Assertions.assertEquals(1l,resource.getId());
-
     }
 
     @Test
@@ -89,8 +100,19 @@ class ShopServiceImplTest {
         when(repository.saveAndFlush(any())).thenReturn(shop);
         Resource resource1=service.updateShop(1l,shop);
         verify(repository,times(1)).saveAndFlush(shop);
+    }
 
-
-
-   }
+    @Test
+    void testForUpdatingShopByGettingException(){
+        Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Shop shop=new Shop();
+                shop.setId(1l);
+               when(repository.findById(2l)).thenReturn(Optional.of(shop));
+               when(repository.saveAndFlush(any())).thenReturn(shop);
+               Resource resource1=service.updateShop(1l,shop);
+            }
+        });
+    }
 }

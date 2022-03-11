@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Product.OBJECT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,9 +53,7 @@ class ProductControllerTest {
 
     @Test
     void testToGetProductByIdFromDb() {
-        Product product=new Product();
-        product.setId(1l);
-        product.setName("brew coffee");
+        Product product= new Product();
         Resource<Product> resource = new Resource<>(1l, OBJECT_TYPE, product);
         resource.setAttribute(product);
         when(service.getProductById(1l)).thenReturn(resource);

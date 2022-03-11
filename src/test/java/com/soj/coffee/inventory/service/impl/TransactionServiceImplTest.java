@@ -6,6 +6,7 @@ import com.soj.coffee.inventory.service.TransactionService;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Transaction.OBJECT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,9 +53,9 @@ class TransactionServiceImplTest {
 
         @Test
         void testToGetTransactionById() {
-            Transaction transaction=new Transaction();
-            transaction.setId(1l);
-            when(repository.findById(1l)).thenReturn(java.util.Optional.of(transaction));
+           Transaction transaction= new Transaction();
+           transaction.setId(1l);
+            when(repository.findById(1l)).thenReturn(Optional.of(transaction));
             Resource resource=service.getTransaction(1l);
             Assertions.assertEquals(1l,resource.getId());
         }
@@ -86,5 +88,33 @@ class TransactionServiceImplTest {
             verify(repository,times(1)).saveAndFlush(transaction);
 
         }
+    @Test
+    void testToGetExceptionTransactionById(){
+            Throwable exception=Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
+                @Override
+                public void execute() throws Throwable {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(1l);
+                    when(repository.findById(2l)).thenReturn(Optional.of(transaction));
+                    Resource resource1 = service.getTransaction(1l);
+                }
+            });
+            Assertions.assertEquals("1 is not present",exception.getMessage());
+    }
+    @Test
+    void testForUpdatingShopByGettingException(){
+        Throwable exception=Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                Transaction transaction = new Transaction();
+                transaction.setId(1l);
+                when(repository.findById(2l)).thenReturn(Optional.of(transaction));
+                when(repository.saveAndFlush(any())).thenReturn(transaction);
+                Resource resource1 = service.updateTransaction(1l, transaction);
+            }
+        });
+        Assertions.assertEquals("1 is not present",exception.getMessage());
+
+    }
 
 }

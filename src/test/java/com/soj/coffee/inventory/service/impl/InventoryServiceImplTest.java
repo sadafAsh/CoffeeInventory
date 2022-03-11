@@ -9,6 +9,7 @@ import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,6 +60,19 @@ class InventoryServiceImplTest {
         when(repository.findById(1l)).thenReturn(java.util.Optional.of(inventory));
         Resource resource = service.getInventory(1l);
         Assertions.assertEquals(1l, resource.getId());
+    }
+
+    @Test
+    void testToGetExceptionInventoryById(){
+        Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+           Inventory  inventory=new Inventory();
+           inventory.setId(1l);
+           when(repository.findById(2l)).thenReturn(java.util.Optional.of(inventory));
+           Resource resource1=service.getInventory(1l);
+            }
+        });
     }
 
     @Test

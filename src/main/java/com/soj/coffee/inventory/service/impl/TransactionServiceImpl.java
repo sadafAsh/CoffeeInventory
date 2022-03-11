@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Transaction.OBJECT_TYPE;
 
@@ -35,8 +36,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Resource<Transaction> getTransaction(long id) {
-        Transaction transaction=transactionRepository.findById(id).get();
-        return new Resource<>(transaction.getId(),OBJECT_TYPE,transaction);
+        Optional<Transaction> transaction=transactionRepository.findById(id);
+       if (transaction.isPresent()) {
+           return new Resource<>(transaction.get().getId(), OBJECT_TYPE, transaction.get());
+       }else {
+           throw new IllegalArgumentException(id+" is not present");
+       }
     }
 
     @Override
@@ -56,10 +61,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Resource<InventoryResponse> updateTransaction(long id, Transaction transaction) {
-       Transaction existingTransaction=transactionRepository.findById(id).get() ;
+     Optional< Transaction> existingTransaction=transactionRepository.findById(id) ;
         BeanUtils.copyProperties(transaction,existingTransaction,"transaction_id");
-        Transaction transaction1=transactionRepository.saveAndFlush(existingTransaction);
+        if (existingTransaction.isPresent()){
+        Transaction transaction1=transactionRepository.saveAndFlush(transaction);
         InventoryResponse response=new InventoryResponse(transaction1.getId(),"update successfully");
         return new Resource<>(transaction1.getId(),OBJECT_TYPE,response) ;
-    }
+    }else {
+            throw new IllegalArgumentException(id+" is not present");
+        }
+}
 }

@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -54,8 +55,6 @@ class ShopControllerTest {
     @Test
     void testToGetShopByIdFromDb() {
         Shop shop = new Shop();
-        shop.setId(1l);
-        shop.setName("sunil");
         Resource<Shop> resource = new Resource<>(1l, "Shop", shop);
         resource.setAttribute(shop);
         when(service.getShop(1l)).thenReturn(resource);
