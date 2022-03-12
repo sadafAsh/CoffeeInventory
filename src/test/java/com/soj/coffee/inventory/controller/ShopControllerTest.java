@@ -1,29 +1,23 @@
 package com.soj.coffee.inventory.controller;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.soj.coffee.inventory.model.Shop;
 import com.soj.coffee.inventory.service.ShopService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -42,7 +36,7 @@ class ShopControllerTest {
     void testToFindAllShopFromDb() {
         Shop shop = new Shop();
         List<Resource<Shop>> resources = new ArrayList<>();
-        InventoryRequest<Shop> request = new InventoryRequest<>(1l, "Shop", shop);
+        Resource<Shop> request = new Resource<>(1l, "Shop", shop);
         Resource<Shop> resource = new Resource(1l, "Shop", request);
         when(service.getAll()).thenReturn(resources);
         List<Resource<Shop>> resource1 = controller.findAllShop();
@@ -67,7 +61,7 @@ class ShopControllerTest {
     @Test()
     void testToAddShopInDb() {
         Shop shop = new Shop();
-        InventoryRequest<Shop> request = new InventoryRequest<>(1l, "Shop", shop);
+        Resource<Shop> request = new Resource<>(1l, "Shop", shop);
         Resource resource = new Resource<>(1l, "Shop", request);
         when(service.addShop(any())).thenReturn(resource);
         Resource resource1 = controller.addShop(request);
@@ -80,7 +74,7 @@ class ShopControllerTest {
     @Test
     void testToDeleteShopByIdFromDb() {
         Shop shop = new Shop();
-        InventoryRequest<Shop> request = new InventoryRequest<>(1l, "Shop", shop);
+        Resource<Shop> request = new Resource<>(1l, "Shop", shop);
         Resource<InventoryResponse> resource = new Resource(1l, "Shop", request);
         when(service.deleteShop(1l)).thenReturn(resource);
         Resource resource1 = controller.deleteShop(1l);
@@ -91,7 +85,7 @@ class ShopControllerTest {
     @Test
     void testToUpdateShopByIdFromDb() {
         Shop shop = new Shop();
-        InventoryRequest<Shop> request = new InventoryRequest<>(1l, "Shop", shop);
+        Resource<Shop> request = new Resource<>(1l, "Shop", shop);
         InventoryResponse response = new InventoryResponse(1l, "update successful");
         Resource<InventoryResponse> resource = new Resource<>(1l, "Shop", response);
         when(service.updateShop(anyLong(), any())).thenReturn(resource);

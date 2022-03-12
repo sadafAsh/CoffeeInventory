@@ -2,7 +2,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Shop;
 import com.soj.coffee.inventory.service.ShopService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class ShopController {
     }
 
     @PostMapping("/shop")
-    public Resource<InventoryResponse> addShop(@RequestBody InventoryRequest<Shop> request){
+    public Resource<InventoryResponse> addShop(@RequestBody Resource<Shop> request){
         Shop shop=request.getAttribute();
         return shopService.addShop(shop);
     }
@@ -39,7 +38,7 @@ public class ShopController {
     }
 
     @PutMapping("/shop/{id}")
-    public Resource<InventoryResponse> updateShop(@PathVariable long id, @RequestBody InventoryRequest<Shop> request){
+    public Resource<InventoryResponse> updateShop(@PathVariable long id, @RequestBody Resource<Shop> request){
        Shop shop=request.getAttribute();
         return  shopService.updateShop(id,shop);
     }

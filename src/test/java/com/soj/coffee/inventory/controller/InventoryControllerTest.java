@@ -1,10 +1,8 @@
 package com.soj.coffee.inventory.controller;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.soj.coffee.inventory.model.Inventory;
 import com.soj.coffee.inventory.model.Product;
 import com.soj.coffee.inventory.service.InventoryService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -16,13 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Inventory.OBJECT_TYPE;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -65,7 +60,7 @@ class InventoryControllerTest {
         product.setId(1l);
         inventory.setProduct(product);
         inventory.setQuantity(1);
-        InventoryRequest<Inventory> request=new InventoryRequest<>(1l,OBJECT_TYPE,inventory);
+        Resource<Inventory> request=new Resource<>(1l,OBJECT_TYPE,inventory);
         InventoryResponse response=new InventoryResponse(1l,"save successfully");
         Resource<InventoryResponse> resource=new Resource<>(1l,OBJECT_TYPE,response);
         when(service.saveInventory(anyLong(),anyInt(),any())).thenReturn(resource);

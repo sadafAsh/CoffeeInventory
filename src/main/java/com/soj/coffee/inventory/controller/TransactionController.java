@@ -2,7 +2,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Transaction;
 import com.soj.coffee.inventory.service.TransactionService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Resource<InventoryResponse> addTransaction(@RequestBody InventoryRequest<Transaction> request){
+    public Resource<InventoryResponse> addTransaction(@RequestBody Resource<Transaction> request){
         Transaction transaction=request.getAttribute();
         return transactionService.addTransaction(transaction);
     }
@@ -36,7 +35,7 @@ public class TransactionController {
         return transactionService.deleteTransaction(id);
     }
     @PutMapping("/{id}")
-    public Resource<InventoryResponse> updateTransaction(@PathVariable long id,@RequestBody InventoryRequest<Transaction> request){
+    public Resource<InventoryResponse> updateTransaction(@PathVariable long id,@RequestBody Resource<Transaction> request){
         Transaction transaction=request.getAttribute();
         return transactionService.updateTransaction(id,transaction);
     }

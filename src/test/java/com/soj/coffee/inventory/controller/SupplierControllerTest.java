@@ -1,9 +1,7 @@
 package com.soj.coffee.inventory.controller;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.soj.coffee.inventory.model.Supplier;
 import com.soj.coffee.inventory.service.SupplierService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -17,10 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Supplier.OBJECT_TYPE;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -62,7 +58,7 @@ class SupplierControllerTest {
     @Test
     void testTOAddSupplier() {
         Supplier supplier=new Supplier();
-        InventoryRequest<Supplier> request=new InventoryRequest<>(1l,OBJECT_TYPE,supplier);
+        Resource<Supplier> request=new Resource<>(1l,OBJECT_TYPE,supplier);
         InventoryResponse response=new InventoryResponse(1l,"create successful");
        Resource<InventoryResponse> resource=new Resource(1l,"Supplier",response);
         when(service.addSupplier(any())).thenReturn(resource);
@@ -83,7 +79,7 @@ class SupplierControllerTest {
     @Test
     void testToUpdateSupplierById() {
     Supplier supplier=new Supplier();
-    InventoryRequest<Supplier> request=new InventoryRequest<>(1l,OBJECT_TYPE,supplier);
+    Resource<Supplier> request=new Resource<>(1l,OBJECT_TYPE,supplier);
         InventoryResponse response=new InventoryResponse(1l,"update message");
         Resource<InventoryResponse> resource=new Resource<>(1l,OBJECT_TYPE,response);
     when(service.updateSupplier(anyLong(),any())).thenReturn(resource);

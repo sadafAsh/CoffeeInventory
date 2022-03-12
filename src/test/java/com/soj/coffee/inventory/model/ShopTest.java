@@ -23,7 +23,7 @@ class ShopTest {
     @Test
     void testToGetName() {
         Shop shop=new Shop();
-        shop.setName("Morrison");
-        Assertions.assertEquals("Morrison",shop.getName());
+        shop.setShopName("Morrison");
+        Assertions.assertEquals("Morrison",shop.getShopName());
     }
 }

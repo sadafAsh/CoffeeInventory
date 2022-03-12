@@ -47,14 +47,14 @@ class ShopIntegrationTest {
     void testToGetShopById() throws Exception {
         Shop shop = new Shop();
         shop.setId(1l);
-        shop.setName("morrison");
+        shop.setShopName("morrison");
         Resource resource1 = new Resource(1l, OBJECT_TYPE, shop);
         given(repository.findById(1l)).willReturn(java.util.Optional.of(shop));
         mvc.perform(MockMvcRequestBuilders.get("/api/v1/shop/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.attribute.name").value("morrison"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.attribute.shopName").value("morrison"));
 
     }
 

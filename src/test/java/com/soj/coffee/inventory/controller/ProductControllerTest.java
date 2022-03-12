@@ -2,7 +2,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Product;
 import com.soj.coffee.inventory.service.ProductService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -16,10 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Product.OBJECT_TYPE;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -41,7 +38,7 @@ class ProductControllerTest {
     void testToFindAllProductFromDb() {
         Product product=new Product();
         List<Resource<Product>> resources = new ArrayList<>();
-        InventoryRequest<Product> request = new InventoryRequest<>(1l, OBJECT_TYPE, product);
+        Resource<Product> request = new Resource<>(1l, OBJECT_TYPE, product);
         Resource<Product> resource = new Resource(1l, OBJECT_TYPE, request);
         when(service.findAll()).thenReturn(resources);
         List<Resource<Product>> resource1 = controller.getAll();
@@ -66,7 +63,7 @@ class ProductControllerTest {
     @Test()
     void testToAddProductInDb() {
         Product product=new Product();
-        InventoryRequest<Product> request = new InventoryRequest<>(1l, OBJECT_TYPE, product);
+        Resource<Product> request = new Resource<>(1l, OBJECT_TYPE, product);
         Resource resource = new Resource<>(1l, OBJECT_TYPE, request);
         when(service.addProduct(any())).thenReturn(resource);
         Resource resource1 = controller.addProduct(request);
@@ -78,7 +75,7 @@ class ProductControllerTest {
     @Test
     void testToDeleteProductByIdFromDb() {
         Product product=new Product();
-        InventoryRequest<Product> request = new InventoryRequest<>(1l, OBJECT_TYPE, product);
+        Resource<Product> request = new Resource<>(1l, OBJECT_TYPE, product);
         Resource<InventoryResponse> resource = new Resource(1l, OBJECT_TYPE, request);
         when(service.deleteProduct(1l)).thenReturn(resource);
         Resource resource1 = controller.deleteProductById(1l);
@@ -89,7 +86,7 @@ class ProductControllerTest {
     @Test
     void testToUpdateProductByIdFromDb() {
         Product product=new Product();
-        InventoryRequest<Product> request = new InventoryRequest<>(1l, OBJECT_TYPE, product);
+        Resource<Product> request = new Resource<>(1l, OBJECT_TYPE, product);
         InventoryResponse response = new InventoryResponse(1l, "update successful");
         Resource<InventoryResponse> resource = new Resource<>(1l, OBJECT_TYPE, response);
         when(service.updateProduct(anyLong(), any())).thenReturn(resource);

@@ -3,9 +3,7 @@ package com.soj.coffee.inventory.service.impl;
 import com.soj.coffee.inventory.model.Inventory;
 import com.soj.coffee.inventory.model.Product;
 import com.soj.coffee.inventory.repository.InventoryRepository;
-import com.soj.coffee.inventory.repository.ProductRepository;
 import com.soj.coffee.inventory.service.InventoryService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.soj.coffee.inventory.model.Product.OBJECT_TYPE;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;

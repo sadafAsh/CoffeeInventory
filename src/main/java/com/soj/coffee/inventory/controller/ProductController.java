@@ -2,7 +2,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Product;
 import com.soj.coffee.inventory.service.ProductService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class ProductController {
 
     }
     @PostMapping
-    public Resource<InventoryResponse> addProduct(@RequestBody InventoryRequest<Product> request){
+    public Resource<InventoryResponse> addProduct(@RequestBody Resource<Product> request){
      Product product=request.getAttribute();
       return  productService.addProduct(product);
     }
@@ -38,7 +37,7 @@ public class ProductController {
       return   productService.deleteProduct(id);
     }
 @PutMapping("{id}")
-    public Resource<InventoryResponse> updateProductById(@PathVariable long id, @RequestBody InventoryRequest<Product> request){
+    public Resource<InventoryResponse> updateProductById(@PathVariable long id, @RequestBody Resource<Product> request){
         Product product=request.getAttribute();
         return productService.updateProduct(id,product);
     }

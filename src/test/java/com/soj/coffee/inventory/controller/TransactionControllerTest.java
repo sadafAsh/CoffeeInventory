@@ -3,7 +3,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Transaction;
 import com.soj.coffee.inventory.service.TransactionService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.junit.jupiter.api.Assertions;
@@ -17,10 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.soj.coffee.inventory.model.Transaction.OBJECT_TYPE;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -42,7 +39,7 @@ class TransactionControllerTest {
     void testToFindAllTransactionFromDb() {
         Transaction transaction=new Transaction();
         List<Resource<Transaction>> resources = new ArrayList<>();
-        InventoryRequest<Transaction> request = new InventoryRequest<>(1l, OBJECT_TYPE, transaction);
+        Resource<Transaction> request = new Resource<>(1l, OBJECT_TYPE, transaction);
         Resource<Transaction> resource = new Resource(1l, OBJECT_TYPE, request);
         when(service.getAll()).thenReturn(resources);
         List<Resource<Transaction>> resource1 = controller.findAll();
@@ -67,7 +64,7 @@ class TransactionControllerTest {
     @Test()
     void testToAddTransactionInDb() {
         Transaction transaction=new Transaction();
-        InventoryRequest<Transaction> request = new InventoryRequest<>(1l, OBJECT_TYPE, transaction);
+        Resource<Transaction> request = new Resource<>(1l, OBJECT_TYPE, transaction);
         Resource resource = new Resource<>(1l, OBJECT_TYPE, request);
         when(service.addTransaction(any())).thenReturn(resource);
         Resource resource1 = controller.addTransaction(request);
@@ -79,7 +76,7 @@ class TransactionControllerTest {
     @Test
     void testToDeleteTransactionByIdFromDb() {
         Transaction transaction=new Transaction();
-        InventoryRequest<Transaction> request = new InventoryRequest<>(1l, OBJECT_TYPE, transaction);
+        Resource<Transaction> request = new Resource<>(1l, OBJECT_TYPE, transaction);
         Resource<InventoryResponse> resource = new Resource(1l, OBJECT_TYPE, request);
         when(service.deleteTransaction(1l)).thenReturn(resource);
         Resource resource1 = controller.deleteTransaction(1l);
@@ -90,7 +87,7 @@ class TransactionControllerTest {
     @Test
     void testToUpdateTransactionByIdFromDb() {
         Transaction transaction=new Transaction();
-        InventoryRequest<Transaction> request = new InventoryRequest<>(1l, OBJECT_TYPE, transaction);
+        Resource<Transaction> request = new Resource<>(1l, OBJECT_TYPE, transaction);
         InventoryResponse response = new InventoryResponse(1l, "update successful");
         Resource<InventoryResponse> resource = new Resource<>(1l, OBJECT_TYPE, response);
         when(service.updateTransaction(anyLong(), any())).thenReturn(resource);

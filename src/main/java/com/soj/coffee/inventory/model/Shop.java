@@ -10,7 +10,7 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(name = "shopName")
-    private String name;
+    private String shopName;
 
     public long getId() {
         return id;
@@ -20,11 +20,11 @@ public class Shop {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }

@@ -2,7 +2,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Supplier;
 import com.soj.coffee.inventory.service.SupplierService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class SupplierController {
     }
 
     @PostMapping
-    public Resource<InventoryResponse> addSupplier(@RequestBody InventoryRequest<Supplier> request){
+    public Resource<InventoryResponse> addSupplier(@RequestBody Resource<Supplier> request){
         Supplier supplier=request.getAttribute();
         return supplierService.addSupplier(supplier);
     }
@@ -38,7 +37,7 @@ public class SupplierController {
     }
 
     @PutMapping("/{id}")
-    public Resource<InventoryResponse> updateSupplier(@PathVariable long id,@RequestBody InventoryRequest<Supplier> request){
+    public Resource<InventoryResponse> updateSupplier(@PathVariable long id,@RequestBody Resource<Supplier> request){
         Supplier supplier=request.getAttribute();
         return supplierService.updateSupplier(id,supplier);
     }

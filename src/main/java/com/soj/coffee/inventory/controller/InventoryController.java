@@ -2,7 +2,6 @@ package com.soj.coffee.inventory.controller;
 
 import com.soj.coffee.inventory.model.Inventory;
 import com.soj.coffee.inventory.service.InventoryService;
-import com.soj.coffee.inventory.util.InventoryRequest;
 import com.soj.coffee.inventory.util.InventoryResponse;
 import com.soj.coffee.inventory.util.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class InventoryController {
     }
 
     @PostMapping
-    public Resource<InventoryResponse> addInventory(@RequestBody InventoryRequest<Inventory> request){
+    public Resource<InventoryResponse> addInventory(@RequestBody Resource<Inventory> request){
         Inventory inventory=request.getAttribute();
         return inventoryService.saveInventory(inventory.getProduct().getId(),inventory.getQuantity(),inventory);
     }
